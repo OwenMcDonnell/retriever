@@ -72,7 +72,6 @@ class engine(Engine):
             Engine.create_db(self)
         except BaseException:
             self.connection.rollback()
-            pass
 
     def create_table(self):
         """Create a table and commit.
@@ -216,6 +215,7 @@ CSV HEADER;"""
         Please update the encoding lookup table if the required encoding is not present.
         """
         import psycopg2 as dbapi
+
         self.get_input()
         conn = dbapi.connect(host=self.opts["host"],
                              port=int(self.opts["port"]),
@@ -225,10 +225,9 @@ CSV HEADER;"""
         encoding = ENCODING.lower()
         if self.script.encoding:
             encoding = self.script.encoding.lower()
-        encoding_lookup = {
-            'iso-8859-1': 'Latin1',
-            'latin-1': 'Latin1',
-            'utf-8': 'UTF8'}
+        encoding_lookup = {'iso-8859-1': 'Latin1',
+                           'latin-1': 'Latin1',
+                           'utf-8': 'UTF8'}
         db_encoding = encoding_lookup.get(encoding)
         conn.set_client_encoding(db_encoding)
         return conn
