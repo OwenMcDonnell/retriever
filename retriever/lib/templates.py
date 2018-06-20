@@ -105,8 +105,8 @@ class BasicTextTemplate(Script):
 
         for _, table_obj in self.tables.items():
             # if the table has no url, use the script's url
-            if hasattr(table_obj, "url"):
-                url = table_obj.url
+            if hasattr(table_obj, "url") and table_obj.url:
+                    url = table_obj.url
             elif self.url:
                 url = self.url
 
