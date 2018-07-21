@@ -21,6 +21,25 @@ addons:
 
 services:
   - postgresql
+
+env:
+  global:
+    - PGPORT=5433
+    - SPRING_DATASOURCE_DATABASE=testdb
+    - SPRING_DATASOURCE_USERNAME=postgres
+    - SPRING_DATASOURCE_PASSWORD=3h6kov63tt4xvo8q
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
+before_script:
+  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} ENCRYPTED PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
+  - psql -c "CREATE DATABASE ${SPRING_DATASOURCE_DATABASE} WITH OWNER = ${SPRING_DATASOURCE_USERNAME};"
+
+  - psql -c "CREATE EXTENSION postgis WITH OWNER = ${SPRING_DATASOURCE_USERNAME};"
+  - psql -c "CREATE EXTENSION postgis_topology; WITH OWNER = ${SPRING_DATASOURCE_USERNAME};"
+## - psql -c "ALTER USER travis WITH PASSWORD 'Password12!';" -U postgres
+#  - psql -c 'create database testdb;' -U postgres
+#  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d testdb
+#  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d testdb
+
 install:
   - pip install -r requirements.txt
   - pip install -e .
@@ -35,12 +54,12 @@ script:
   - which raster2pgsql
 
 # database setup
-before_script:
-  - sqlite3 --version
-  - psql -c "ALTER USER travis WITH PASSWORD 'Password12!';" -U postgres
-  - psql -c 'create database testdb;' -U postgres
-  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d testdb
-  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d testdb
+#before_script:
+#  - sqlite3 --version
+##  - psql -c "ALTER USER travis WITH PASSWORD 'Password12!';" -U postgres
+#  - psql -c 'create database testdb;' -U postgres
+#  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d testdb
+#  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d testdb
 
 after_success:
   - codecov
