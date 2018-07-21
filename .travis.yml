@@ -11,6 +11,11 @@ addons:
       - travis-ci/sqlite3
     packages:
       - sqlite3
+      - gdal-bin
+      - python-gdal
+      # Development files and headers for GDAL
+      - libgdal-dev
+      - libgdal1-dev
 
 services:
   - postgresql
@@ -21,16 +26,19 @@ install:
   - pip install pytest-cov -U
   - pip install pytest-xdist -U
 
-
 # command to run tests using py.test
 
 script:
-  - py.test -k "not test_mysql_integration" -v --cov=retriever
+  - raster2pgsql
+  - which raster2pgsql
 
 # database setup
 before_script:
   - sqlite3 --version
   - psql -c 'create database testdb;' -U postgres
+  - psql -c 'create database testdb;' -U postgres
+  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d testdb
+  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d testdb
 
 after_success:
   - codecov
