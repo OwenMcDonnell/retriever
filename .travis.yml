@@ -5,7 +5,7 @@ python:
   - "2.7"
   - "3.5"
 addons:
-  postgresql: "9.4"
+  postgresql: "10"
   apt:
     sources:
       - travis-ci/sqlite3
@@ -13,6 +13,8 @@ addons:
       - sqlite3
       - gdal-bin
       - python-gdal
+      - postgresql-10
+      - postgresql-client-10
       # Development files and headers for GDAL
       - libgdal-dev
       - libgdal1-dev
