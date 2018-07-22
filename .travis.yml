@@ -30,7 +30,7 @@ env:
     - SPRING_DATASOURCE_PASSWORD=Password12!
     - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
 before_script:
-  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
+#  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
   - psql -c "CREATE DATABASE ${SPRING_DATASOURCE_DATABASE} WITH OWNER = ${SPRING_DATASOURCE_USERNAME};"
 
   - psql -c "CREATE EXTENSION postgis WITH OWNER = ${SPRING_DATASOURCE_USERNAME};"
@@ -46,6 +46,7 @@ install:
   - pip install codecov -U
   - pip install pytest-cov -U
   - pip install pytest-xdist -U
+
 
 # command to run tests using py.test
 
