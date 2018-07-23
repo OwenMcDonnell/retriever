@@ -32,8 +32,14 @@ services:
 before_script:
 #  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
   - psql -c 'create database testdb;' -U postgres
-
+  - psql -c "ALTER USER CURRENT_USER WITH PASSWORD 'Password12!'" -U postgres;
   - psql -c 'CREATE EXTENSION postgis WITH  SCHEMA testdb;'  -U postgres
+
+#  - psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
+
+#  - psql -c 'CREATE DATABASE testdb'
+#  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE testdb to postgres
+
   - psql -c 'CREATE EXTENSION postgis_topology WITH SCHEMA  testdb;'  -U postgres
 
 #  - psql -c "create user rtester with createdb login password 'rtester'" -U postgres
