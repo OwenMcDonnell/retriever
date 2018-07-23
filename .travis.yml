@@ -15,6 +15,7 @@ addons:
       - python-gdal
       - postgresql-10
       - postgresql-client-10
+      - postgresql-10-postgis-2.4
       # Development files and headers for GDAL
       - libgdal-dev
       - libgdal1-dev
@@ -22,13 +23,13 @@ addons:
 services:
   - postgresql
 
-env:
-  global:
-    - PGPORT=5433
-    - SPRING_DATASOURCE_DATABASE=testdb
-    - SPRING_DATASOURCE_USERNAME=postgres
-#    - SPRING_DATASOURCE_PASSWORD=Password12!
-    - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
+#env:
+#  global:
+#    - PGPORT=5433
+#    - SPRING_DATASOURCE_DATABASE=testdb
+#    - SPRING_DATASOURCE_USERNAME=postgres
+##    - SPRING_DATASOURCE_PASSWORD=Password12!
+#    - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
 before_script:
 #
 #psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
@@ -38,11 +39,12 @@ before_script:
 #Create .pgpass in your home directory:
 #localhost:*:testdb:postgres:Password12!
 #  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
-  - psql -c 'create database testdb;' -U postgres
-#  - psql -c "ALTER USER CURRENT_USER WITH PASSWORD 'Password12!'" -U postgres;
-#  - psql -c 'CREATE EXTENSION postgis WITH  SCHEMA testdb;'  -U postgres
-  - psql -d testdb -c 'CREATE EXTENSION postgis;' -U postgres
-
+#  - psql -c 'create database testdb;' -U postgres
+##  - psql -c "ALTER USER CURRENT_USER WITH PASSWORD 'Password12!'" -U postgres;
+##  - psql -c 'CREATE EXTENSION postgis WITH  SCHEMA testdb;'  -U postgres
+#  - psql -d testdb -c 'CREATE EXTENSION postgis;' -U postgres
+  - psql -U postgres -c "create database testdb"
+  - psql -U postgres -d testdb -c "create extension postgis"
 #  - psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
 
 #  - psql -c 'CREATE DATABASE testdb'
