@@ -24,11 +24,11 @@ services:
 
 env:
   global:
-    - PGPORT=5433
-#    - SPRING_DATASOURCE_DATABASE=testdb
-#    - SPRING_DATASOURCE_USERNAME=postgres
-#    - SPRING_DATASOURCE_PASSWORD=Password12!
-#    - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
+    - PGPORT=5432
+    - SPRING_DATASOURCE_DATABASE=testdb
+    - SPRING_DATASOURCE_USERNAME=postgres
+    - SPRING_DATASOURCE_PASSWORD=Password12!
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
 before_script:
 #
 #psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
