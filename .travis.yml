@@ -23,9 +23,9 @@ addons:
 services:
   - postgresql
 
-#env:
-#  global:
-#    - PGPORT=5433
+env:
+  global:
+    - PGPORT=5433
 #    - SPRING_DATASOURCE_DATABASE=testdb
 #    - SPRING_DATASOURCE_USERNAME=postgres
 ##    - SPRING_DATASOURCE_PASSWORD=Password12!
