@@ -27,7 +27,7 @@ env:
     - PGPORT=5433
     - SPRING_DATASOURCE_DATABASE=testdb
     - SPRING_DATASOURCE_USERNAME=postgres
-    - SPRING_DATASOURCE_PASSWORD=Password12!
+#    - SPRING_DATASOURCE_PASSWORD=Password12!
     - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
 before_script:
 #
@@ -39,8 +39,9 @@ before_script:
 #localhost:*:testdb:postgres:Password12!
 #  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
   - psql -c 'create database testdb;' -U postgres
-  - psql -c "ALTER USER CURRENT_USER WITH PASSWORD 'Password12!'" -U postgres;
-  - psql -c 'CREATE EXTENSION postgis WITH  SCHEMA testdb;'  -U postgres
+#  - psql -c "ALTER USER CURRENT_USER WITH PASSWORD 'Password12!'" -U postgres;
+#  - psql -c 'CREATE EXTENSION postgis WITH  SCHEMA testdb;'  -U postgres
+  - psql -d testdb -c 'CREATE EXTENSION postgis;' -U postgres
 
 #  - psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
 
