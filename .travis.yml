@@ -45,7 +45,7 @@ before_script:
 #  - psql -d testdb -c 'CREATE EXTENSION postgis;' -U postgres
   - psql -U postgres -c "create database testdb"
   - psql -U postgres -d testdb -c "create extension postgis"
-   - psql -U postgres -d testdb -c "create extension postgis_topology"
+  - psql -U postgres -d testdb -c "create extension postgis_topology"
 #  - psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
 
 #  - psql -c 'CREATE DATABASE testdb'
