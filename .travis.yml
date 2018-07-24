@@ -10,8 +10,9 @@ before_install:
 # database creation
 before_script:
   - psql -c "create database travis_postgis;" -U postgres
-  - psql -c "CREATE EXTENSION postgis version '2.2.2';" -U postgres -d travis_postgis
-  - psql -c "CREATE EXTENSION postgis_topology version '2.2.2';" -U postgres -d travis_postgis
+  - ls /usr/share/postgresql/9.2/extension/
+  - psql -c "CREATE EXTENSION postgis ;" -U postgres -d travis_postgis
+  - psql -c "CREATE EXTENSION postgis_topology " -U postgres -d travis_postgis
 
 
 install:
