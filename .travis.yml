@@ -28,7 +28,7 @@ script:
 #  - raster2pgsql
   - which raster2pgsql
   - retriever ls
-  - retriever install postgres bioclim -b travis_postgis
+  - retriever install postgres --database travis_postgis bioclim
 
 
 after_success:
