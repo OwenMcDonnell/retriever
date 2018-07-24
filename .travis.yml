@@ -20,8 +20,8 @@ before_script:
   - sudo /etc/init.d/postgresql restart
 #  - psql -U postgres -c 'create database "testdb";'
   - psql -U postgres -c "create database testdb"
-  - psql -U postgres -d testdb -c "create extension postgis"
-  - psql -U postgres -d testdb -c "create extension postgis_topology"
+#  - psql -U postgres -d testdb -c "create extension postgis"
+#  - psql -U postgres -d testdb -c "create extension postgis_topology"
 #  - psql -U postgres -d testdb -c 'create extension "uuid-ossp";'
 
 language: python
@@ -81,6 +81,8 @@ install:
 script:
 #  - raster2pgsql
   - which raster2pgsql
+  - retriever ls
+  - retriever install postgres bioclim -b testdb
 #  - ls /usr/lib/postgresql/9.4/bin
   - tree /usr/lib/postgresql
   - tree usr/local/postgis/
