@@ -1,73 +1,18 @@
 sudo: required
-
-env:
-  global:
-  - PGPORT=5432
-  - PGHOST=localhost
-
-addons:
-  apt:
-    sources:
-    - precise-pgdg-9.5
-    - travis-ci/sqlite3
-    packages:
-    - postgresql-9.5
-    - postgresql-contrib-9.5
-    - tree
-  postgresql: 9.5
-
-before_script:
-  - sudo cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.5/main/pg_hba.conf
-  - sudo /etc/init.d/postgresql restart
-#  - psql -U postgres -c 'create database "testdb";'
-  - psql -U postgres -c "create database testdb"
-#  - psql -U postgres -d testdb -c "create extension postgis"
-#  - psql -U postgres -d testdb -c "create extension postgis_topology"
-#  - psql -U postgres -d testdb -c 'create extension "uuid-ossp";'
-
+dist: trusty
 language: python
 python:
   - "3.5"
-#
-#env:
-#  global:
-#    - PGPORT=5433
-#    - SPRING_DATASOURCE_DATABASE=testdb
-#    - SPRING_DATASOURCE_USERNAME=postgres
-##    - SPRING_DATASOURCE_PASSWORD=Password12!
-#    - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:${PGPORT}/${SPRING_DATASOURCE_DATABASE}
-#before_script:
-##
-##psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
-##psql -c 'CREATE DATABASE testdb'
-##psql -c 'GRANT ALL PRIVILEGES ON DATABASE testdb to postgres'
-##​
-##Create .pgpass in your home directory:
-##localhost:*:testdb:postgres:Password12!
-##  - psql -c "CREATE USER ${SPRING_DATASOURCE_USERNAME} PASSWORD '${SPRING_DATASOURCE_PASSWORD}';"
-##  - psql -c 'create database testdb;' -U postgres
-###  - psql -c "ALTER USER CURRENT_USER WITH PASSWORD 'Password12!'" -U postgres;
-###  - psql -c 'CREATE EXTENSION postgis WITH  SCHEMA testdb;'  -U postgres
-##  - psql -d testdb -c 'CREATE EXTENSION postgis;' -U postgres
-#  - psql -U postgres -c "create database testdb"
-#  - psql -U postgres -d testdb -c "create extension postgis"
-#  - psql -U postgres -d testdb -c "create extension postgis_topology"
-#  - apt-get postgresql-contrib-9.4 --allow
-#  - service postgresql stop
-#  - service postgresql start
-##  - psql -c "CREATE USER postgres WITH PASSWORD 'Password12!'"
-#
-##  - psql -c 'CREATE DATABASE testdb'
-##  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE testdb to postgres
-#
-##  - psql -c 'CREATE EXTENSION postgis_topology WITH SCHEMA  testdb;'  -U postgres
-#
-##  - psql -c "create user rtester with createdb login password 'rtester'" -U postgres
-##- psql -c "create database pybossa_test owner rtester encoding 'UTF-8' lc_collate 'en_US.UTF-8' lc_ctype 'en_US.UTF-8' template template0;" -U postgres
-### - psql -c "ALTER USER travis WITH PASSWORD 'Password12!';" -U postgres
-##  - psql -c 'create database testdb;' -U postgres
-##  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d testdb
-##  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d testdb
+before_install:
+  - sudo apt-get install -y postgresql-9.5-postgis-2.2 postgresql-9.5-postgis-2.2-scripts
+
+
+# database creation
+before_script:
+  - psql -c "create database travis_postgis;" -U postgres
+  - psql -c "CREATE EXTENSION postgis version '2.2.2';" -U postgres -d travis_postgis
+  - psql -c "CREATE EXTENSION postgis_topology version '2.2.2';" -U postgres -d travis_postgis
+
 
 install:
   - pip install -r requirements.txt
@@ -83,18 +28,8 @@ script:
 #  - raster2pgsql
   - which raster2pgsql
   - retriever ls
-  - retriever install postgres bioclim -b testdb
-#  - ls /usr/lib/postgresql/9.4/bin
-  - tree /usr/lib/postgresql
-  - tree usr/local/postgis/
-  - tree /usr/local/bin/
-# database setup
-#before_script:
-#  - sqlite3 --version
-##  - psql -c "ALTER USER travis WITH PASSWORD 'Password12!';" -U postgres
-#  - psql -c 'create database testdb;' -U postgres
-#  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d testdb
-#  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d testdb
+  - retriever install postgres bioclim -b travis_postgis
+
 
 after_success:
   - codecov
