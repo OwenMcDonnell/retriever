@@ -68,15 +68,13 @@ install:
   - pip install codecov -U
   - pip install pytest-cov -U
   - pip install pytest-xdist -U
-
+  - export PATH=/usr/lib/postgresql/9.4/bin:$PATH
 
 # command to run tests using py.test
 
 script:
 #  - raster2pgsql
-#  - which raster2pgsql
-  - which postgres
-  - export PATH=$(which postgres)
+  - which raster2pgsql
   - raster2pgsql
 # database setup
 #before_script:
