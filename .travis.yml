@@ -19,6 +19,8 @@ addons:
       # Development files and headers for GDAL
       - libgdal-dev
       - libgdal1-dev
+      - libgeos-dev
+      - libproj-dev
 
 services:
   - postgresql
@@ -71,9 +73,11 @@ install:
 # command to run tests using py.test
 
 script:
+#  - raster2pgsql
+#  - which raster2pgsql
+  - which postgres
+  - export PATH=$(which postgres)
   - raster2pgsql
-  - which raster2pgsql
-
 # database setup
 #before_script:
 #  - sqlite3 --version
