@@ -1,7 +1,10 @@
 import os
 from builtins import range
-from osgeo import gdal, gdalconst
-from osgeo import ogr
+try:
+    from osgeo import gdal, gdalconst
+    from osgeo import ogr
+except:
+    pass
 from retriever.lib.defaults import DATA_DIR
 from retriever.lib.models import Engine, no_cleanup
 
