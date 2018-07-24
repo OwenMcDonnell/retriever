@@ -21,7 +21,6 @@ addons:
       - libgdal1-dev
       - libgeos-dev
       - libproj-dev
-      - raster2pgsql
 
 services:
   - postgresql
@@ -78,6 +77,7 @@ script:
   - which raster2pgsql
   - ls /usr/lib/postgresql/9.4/bin
   - raster2pgsql
+  - ls /usr/local/bin/
 # database setup
 #before_script:
 #  - sqlite3 --version
