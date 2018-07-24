@@ -5,7 +5,7 @@ python:
   - "2.7"
   - "3.5"
 addons:
-  postgresql: "9.4"
+  postgresql: "9.6"
   apt:
     sources:
       - travis-ci/sqlite3
@@ -13,9 +13,16 @@ addons:
       - sqlite3
       - gdal-bin
       - python-gdal
-      - postgresql-10
-      - postgresql-client-10
-      - postgresql-9.4-postgis-2.3
+#      - postgresql-10
+#      - postgresql-client-10
+      - postgresql-9.6
+      - postgresql-9.6-postgis-2.3
+      - postgresql-contrib-9.6
+      - postgresql-9.6-postgis-scripts
+      - postgis
+
+      - phppgadmin
+#      - postgresql-9.4-postgis-2.3
       # Development files and headers for GDAL
       - libgdal-dev
       - libgdal1-dev
@@ -69,7 +76,7 @@ install:
   - pip install codecov -U
   - pip install pytest-cov -U
   - pip install pytest-xdist -U
-  - export PATH=/usr/lib/postgresql/9.4/bin:$PATH
+  - export PATH=/usr/lib/postgresql/9.6/bin:$PATH
 
 # command to run tests using py.test
 
@@ -79,7 +86,7 @@ script:
 #  - ls /usr/lib/postgresql/9.4/bin
   - tree /usr/lib/postgresql
   - tree usr/local/postgis/
-  - tree /usr/local/bin/
+#  - tree /usr/local/bin/
 # database setup
 #before_script:
 #  - sqlite3 --version
