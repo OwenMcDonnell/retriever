@@ -19,7 +19,7 @@ addons:
       - postgresql-9.6-postgis-2.3
       - postgresql-contrib-9.6
       - postgresql-9.6-postgis-scripts
-      - postgis
+#      - postgis
 
 #      - phppgadmin
 #      - postgresql-9.4-postgis-2.3
@@ -84,6 +84,7 @@ script:
 #  - raster2pgsql
 #  - which raster2pgsql
 #  - ls /usr/lib/postgresql/9.4/bin
+  - ls $libdir
   - tree /usr/lib/postgresql
   - tree usr/local/postgis/
 #  - tree /usr/local/bin/
