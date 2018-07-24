@@ -13,16 +13,11 @@ addons:
       - sqlite3
       - gdal-bin
       - python-gdal
-#      - postgresql-10
-#      - postgresql-client-10
-#      - postgresql-9.4
+      - postgresql-10
+      - postgresql-client-10
       - postgresql-9.4-postgis-2.3
       - postgresql-contrib-9.4
       - postgresql-9.4-postgis-scripts
-#      - postgis
-
-#      - phppgadmin
-#      - postgresql-9.4-postgis-2.3
       # Development files and headers for GDAL
       - libgdal-dev
       - libgdal1-dev
@@ -84,10 +79,8 @@ script:
 #  - raster2pgsql
 #  - which raster2pgsql
 #  - ls /usr/lib/postgresql/9.4/bin
-  - ls $libdir
   - tree /usr/lib/postgresql
   - tree usr/local/postgis/
-#  - tree /usr/local/bin/
 # database setup
 #before_script:
 #  - sqlite3 --version
