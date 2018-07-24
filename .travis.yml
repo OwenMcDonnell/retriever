@@ -16,8 +16,6 @@ addons:
       - postgresql-10
       - postgresql-client-10
       - postgresql-9.4-postgis-2.3
-#      - postgresql-contrib-9.4
-      - postgresql-9.4-postgis-scripts
       # Development files and headers for GDAL
       - libgdal-dev
       - libgdal1-dev
@@ -81,6 +79,7 @@ script:
 #  - ls /usr/lib/postgresql/9.4/bin
   - tree /usr/lib/postgresql
   - tree usr/local/postgis/
+  - tree /usr/local/bin/
 # database setup
 #before_script:
 #  - sqlite3 --version
