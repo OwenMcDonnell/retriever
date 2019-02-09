@@ -14,6 +14,7 @@ encoding = ENCODING.lower()
 reload(sys)
 if hasattr(sys, 'setdefaultencoding'):
     sys.setdefaultencoding(encoding)
+
 import retriever as rt
 from retriever.lib.engine import Engine
 from retriever.lib.table import TabularDataset
@@ -27,6 +28,10 @@ from retriever.lib.engine_tools import sort_csv
 from retriever.lib.engine_tools import create_file
 from retriever.lib.engine_tools import file_2list
 from retriever.lib.datapackage import clean_input, is_empty
+
+reload(sys)
+if hasattr(sys, 'setdefaultencoding'):
+    sys.setdefaultencoding(encoding)
 
 # Create simple engine fixture
 test_engine = Engine()
