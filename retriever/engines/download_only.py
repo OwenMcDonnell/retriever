@@ -20,8 +20,7 @@ class engine(Engine):
                       "./"),
                      ("subdir",
                       "Keep the subdirectories for archived files",
-                      False)
-                     ]
+                      False)]
 
     def table_exists(self, dbname, tablename):
         """Checks if the file to be downloaded already exists"""
