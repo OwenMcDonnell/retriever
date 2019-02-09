@@ -1,4 +1,4 @@
-# -*- coding: latin-1  -*-
+# -*- coding: utf-8  -*-
 """Tests for the Data Retriever"""
 from future import standard_library
 
@@ -14,7 +14,6 @@ encoding = ENCODING.lower()
 reload(sys)
 if hasattr(sys, 'setdefaultencoding'):
     sys.setdefaultencoding(encoding)
-
 import retriever as rt
 from retriever.lib.engine import Engine
 from retriever.lib.table import TabularDataset
@@ -28,10 +27,6 @@ from retriever.lib.engine_tools import sort_csv
 from retriever.lib.engine_tools import create_file
 from retriever.lib.engine_tools import file_2list
 from retriever.lib.datapackage import clean_input, is_empty
-
-reload(sys)
-if hasattr(sys, 'setdefaultencoding'):
-    sys.setdefaultencoding(encoding)
 
 # Create simple engine fixture
 test_engine = Engine()
@@ -110,7 +105,7 @@ def test_auto_get_datatypes():
     The function adds 100 to the auto detected length of column
     """
     test_engine.auto_get_datatypes(None,
-                                   [["ö", 'bb', 'Löve']],
+                                   [["Ã¶", 'bb', 'LÃ¶ve']],
                                    [['a', None], ['b', None], ['c', None]])
     length = test_engine.table.columns
     assert [length[0][1][1], length[1][1][1], length[2][1][1]] == \
