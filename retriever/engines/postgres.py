@@ -1,5 +1,8 @@
 import os
+import platform
 import subprocess
+
+from pathlib import Path
 
 from retriever.lib.defaults import ENCODING
 from retriever.lib.models import Engine, no_cleanup
@@ -170,13 +173,14 @@ CSV HEADER;"""
         The sql processed by raster2pgsql is run
         as psql -U postgres -d <gisdb> -f <elev>.sql
         """
-
         if not path:
             path = Engine.format_data_dir(self)
-
+        path = os.path.normpath(path)
+        if platform.system().lower() == 'windows':
+            path = path.replace("\\", "\\\\")
         raster_sql = "raster2pgsql -M -d -I -s {SRID} \"{path}\" -F -t 100x100 {SCHEMA_DBTABLE}".format(
             SRID=srid,
-            path=os.path.normpath(path),
+            path=path,
             SCHEMA_DBTABLE=self.table_name())
 
         cmd_string = """ | psql -U {USER} -d {DATABASE} --port {PORT} --host {HOST}""".format(
