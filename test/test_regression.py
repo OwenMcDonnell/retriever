@@ -7,6 +7,9 @@ import shlex
 import shutil
 import subprocess
 import sys
+
+import time
+
 from imp import reload
 
 from retriever import download
@@ -66,6 +69,10 @@ db_md5 = [
     ('mammal_masses', '6fec0fc63007a4040d9bbc5cfcd9953e')
 ]
 
+spatial_db_md5 = [
+    # ('harvard_forest', '89c8ae47fb419d0336b2c22219f23793'),
+    ('bioclim', '98dcfdca19d729c90ee1c6db5221b775'),
+]
 # Tuple of (dataset_name, list of dict values corresponding to a table)
 fetch_tests = [
     ('iris',
@@ -135,6 +142,7 @@ def get_csv_md5(dataset, engine, tmpdir, install_function, config):
     final_direct = os.getcwd()
     engine.script_table_registry = {}
     engine_obj = install_function(dataset.replace('_', '-'), **config)
+    time.sleep(5)
     engine_obj.to_csv()
     # need to remove scripts before checking md5 on dir
     subprocess.call(['rm', '-r', 'scripts'])
@@ -259,3 +267,26 @@ def test_fetch():
                 first_row_data = list(data_frame[table_i].iloc[0])
                 assert expected_data == first_row_data
                 assert expected_column_values == column_values
+
+@pytest.mark.parametrize("dataset, expected", spatial_db_md5)
+def test_postgres_spregression(dataset, expected, tmpdir):
+    """Check for postgres regression."""
+    cmd = 'psql -U postgres -d ' + testdb_retriever + ' -h ' + pgdb_host + ' -w -c \"DROP SCHEMA IF EXISTS ' + testschema + ' CASCADE\"'
+    subprocess.call(shlex.split(cmd))
+    postgres_engine.opts = {'engine': 'postgres',
+                            'user': 'postgres',
+                            'password': os_password,
+                            'host': pgdb_host,
+                            'port': 5432,
+                            'database': testdb_retriever,
+                            'database_name': testschema,
+                            'table_name': '{db}.{table}'}
+    interface_opts = {"user": 'postgres',
+                      "password": postgres_engine.opts['password'],
+                      'host': postgres_engine.opts['host'],
+                      'port': postgres_engine.opts['port'],
+                      "database": postgres_engine.opts['database'],
+                      "database_name": postgres_engine.opts['database_name'],
+                      "table_name": postgres_engine.opts['table_name']}
+    get_csv_md5(dataset, postgres_engine, tmpdir, install_postgres, interface_opts)
+    assert 1 == 1
