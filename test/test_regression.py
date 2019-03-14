@@ -198,7 +198,7 @@ def test_mysql_regression(dataset, expected, tmpdir):
     subprocess.call(shlex.split(cmd))
     mysql_engine.opts = {'engine': 'mysql',
                          'user': 'travis',
-                         'password': os_password,
+                         'password': '',
                          'host': mysqldb_host,
                          'port': 3306,
                          'database_name': testdb_retriever,
