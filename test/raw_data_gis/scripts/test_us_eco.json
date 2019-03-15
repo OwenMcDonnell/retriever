@@ -20,7 +20,7 @@
   "resources": [
     {
       "name": "us_eco",
-      "path": "test_vector_us_eco/us_eco.shp",
+      "path": "us_eco.shp",
       "url": "https://github.com/weecology/retriever/raw/master/test/raw_data_gis/test_vector_us_eco.zip",
       "geom_type": "Polygon",
       "extent": {

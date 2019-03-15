@@ -34,7 +34,7 @@
         {
           "name": "raster_bio1",
           "format": "raster",
-          "path":"test_raster_bio1/test_raster_bio1.tif",
+          "path":"test_raster_bio1.tif",
           "extensions": ["tif"],
 
             "no_data_value": -9999.0,

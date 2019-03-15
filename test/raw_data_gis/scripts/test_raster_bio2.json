@@ -34,7 +34,7 @@
     {
       "name": "raster_bio2",
       "format": "raster",
-      "path": "test_raster_bio2/test_raster_bio2.tif",
+      "path": "test_raster_bio2.tif",
       "extensions": [
         "tif"
       ],
