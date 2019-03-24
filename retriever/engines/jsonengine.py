@@ -51,11 +51,7 @@ class engine(Engine):
 
         # Register all tables created to enable
         # testing python files having custom download function
-        if self.script.name not in self.script_table_registry:
-            self.script_table_registry[self.script.name] = []
-        self.script_table_registry[self.script.name].append(
-            (self.table_name(), self.table)
-        )
+        Engine.register_tables(self)
 
     def disconnect(self):
         """Close out the JSON with a `\\n]}` and close the file.
@@ -127,13 +123,19 @@ class engine(Engine):
         table_name = os.path.join(tabledir, tablename)
         return os.path.exists(table_name)
 
-    def to_csv(self, sort=True, path=None):
+    def to_csv(self, sort=True, path=None, select_columns=None):
         """Export table from json engine to CSV file"""
         for table_item in self.script_table_registry[self.script.name]:
             header = table_item[1].get_insert_columns(join=False, create=True)
             outputfile = os.path.normpath(
-                os.path.join(path if path else '', os.path.splitext(os.path.basename(table_item[0]))[0] + '.csv'))
-            csv_outfile = json2csv(table_item[0], output_file=outputfile, header_values=header)
+                os.path.join(
+                    path if path else "",
+                    os.path.splitext(os.path.basename(table_item[0]))[0] + ".csv",
+                )
+            )
+            csv_outfile = json2csv(
+                table_item[0], output_file=outputfile, header_values=header
+            )
             sort_csv(csv_outfile)
 
     def get_connection(self):
