@@ -12,7 +12,7 @@ from retriever.lib.engine_tools import json2csv, sort_csv
 
 
 class engine(Engine):
-    """Engine instance for writing data to a JSON file."""
+    """Engine instance for writing data to a CSV file."""
 
     name = "JSON"
     abbreviation = "json"
@@ -110,14 +110,10 @@ class engine(Engine):
         else:
             newrows = values
         json_dumps = []
-        pretty = True if "pretty" in self.opts and self.opts["pretty"] is True else False
         for line_data in newrows:
             tuples = (zip(keys, line_data))
             write_data = OrderedDict(tuples)
-            if not pretty:
-                json_dumps.append(json.dumps(write_data, ensure_ascii=False) + ",")
-            else:
-                json_dumps.append(json.dumps(write_data, ensure_ascii=False, indent=2) + ",")
+            json_dumps.append(json.dumps(write_data, ensure_ascii=False) + ",")
         return json_dumps
 
     def table_exists(self, dbname, tablename):
@@ -127,7 +123,7 @@ class engine(Engine):
         table_name = os.path.join(tabledir, tablename)
         return os.path.exists(table_name)
 
-    def to_csv(self, sort=True, path=None):
+    def to_csv(self, sort=True, path=None, select_columns=None):
         """Export table from json engine to CSV file"""
         for table_item in self.script_table_registry[self.script.name]:
             header = table_item[1].get_insert_columns(join=False, create=True)
