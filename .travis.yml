@@ -1,6 +1,10 @@
 cache: packages
 sudo: required
 warnings_are_errors: false
+
+language: python
+python:
+  - "3.5"
 services:
   - docker
 
@@ -8,12 +12,19 @@ services:
 before_install:
 -  docker-compose ps
 
+install:
+  - pip install codecov -U
+  - pip install pytest-cov -U
+  - pip install pytest-xdist -U
+  # Use pytest 3.9.3 version since 3.10.0 has a bug
+  - pip install pytest==3.9.3 -U
 # command to run tests using py.test
 script:
--  docker-compose  run --service-ports python_retriever py.test -v --cov=retriever 2>error.log && if [[ -s "error.log" ]]; then exit 1; else echo 0; fi
+-  docker-compose  run --service-ports python_retriever py.test -v --cov=retriever 2>error.log && if [[ -s "error.log" ]]; then cat error.log && exit 1; else echo 0; fi
 
 after_success:
   - codecov
+  - docker-compose -f down
 
 notifications:
   slack:
