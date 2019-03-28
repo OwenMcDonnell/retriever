@@ -45,6 +45,8 @@ class engine(Engine):
                       "{db}.{table}"),
                      ]
     spatial_support = True
+    # Set Latin1 as default postgres encoding
+    db_encoding = "Latin1"
 
     def auto_create_table(self, table, url=None, filename=None, pk=None):
         """Create a table automatically.
@@ -213,7 +215,7 @@ CSV HEADER;"""
          """
         if not path:
             path = Engine.format_data_dir(self)
-        vector_sql = "shp2pgsql -d -I -s {SRID} \"{path}\" {SCHEMA_DBTABLE}".format(
+        vector_sql = " -W \"latin1\" -I -s {SRID} \"{path}\" \"{SCHEMA_DBTABLE}\"".format(
             SRID=srid,
             path=os.path.normpath(path),
             SCHEMA_DBTABLE=self.table_name())
@@ -225,9 +227,21 @@ CSV HEADER;"""
             HOST=self.opts["host"]
         )
         cmd_stmt = vector_sql + cmd_string
+
+        # prepare table
+        # os.system("shp2pgsql -p " + cmd_stmt)
+        try:
+            subprocess.call("shp2pgsql -p " + cmd_stmt + " > NUL", shell=True)
+        except BaseException as e:
+            subprocess.call("shp2pgsql -d "+ cmd_stmt + " > NUL", shell=True)
+
+        # os.system("shp2pgsql -d " + cmd_stmt)
         if self.debug:
             print(cmd_stmt)
-        subprocess.call(cmd_stmt, shell=True, stdout=subprocess.PIPE)
+        # try:
+        #     subprocess.call("shp2pgsql -d "+ cmd_stmt + >dev/null, shell=True, stdout=subprocess.PIPE)
+        # except BaseException as e:
+        #     print(e)
 
     def format_insert_value(self, value, datatype):
         """Format value for an insert statement."""
@@ -260,6 +274,6 @@ CSV HEADER;"""
         encoding_lookup = {'iso-8859-1': 'Latin1',
                            'latin-1': 'Latin1',
                            'utf-8': 'UTF8'}
-        db_encoding = encoding_lookup.get(encoding)
-        conn.set_client_encoding(db_encoding)
+        self.db_encoding = encoding_lookup.get(encoding)
+        conn.set_client_encoding(self.db_encoding)
         return conn

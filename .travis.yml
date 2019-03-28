@@ -28,7 +28,8 @@ install:
 
 script:
   - py.test -v --cov=retriever
-
+script:
+-  docker-compose  run --service-ports python_retriever py.test -v --cov=retriever
 # database setup
 before_script:
   - sqlite3 --version
